@@ -39,7 +39,17 @@ app.get('/todos', checksExistsUserAccount, (request, response) => {
 });
 
 app.post('/todos', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const todo = {
+    id: v4(), 
+    title: request.body.title,
+    done: false,
+    deadline: new Date(request.body.deadline),
+    created_at: new Date()
+  }
+  const user = findUserByUsername(request.username)
+  user.todos.push(todo);
+
+  response.status(201).send(todo)
 });
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
